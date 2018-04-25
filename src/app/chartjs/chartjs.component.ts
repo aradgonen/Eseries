@@ -184,7 +184,7 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
               }
           }
         }
-        this.charts[k].options.title.text=this.jsons.data[0][1].systems[k].id;
+        this.charts[k].options.title.text=this.jsons.data[0][1].systems[k].name;
         this.charts[k].update();
       }
     }
