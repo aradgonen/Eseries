@@ -48,7 +48,7 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
     var pie ={
       type: 'doughnut',
       data: {
-        labels: ["Disks", "Mgmt", "Hardware", "FC", "Vols&Pols"],
+        labels: ["Disks", "Mgmt", "Hardware", "FC", "Vols&Pools"],
         datasets: [
           {
             backgroundColor:["#008000","#008000","#008000","#008000","#008000"],
