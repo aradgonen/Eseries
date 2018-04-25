@@ -1,3 +1,6 @@
 .navbar.fixed-bottom.navbar-dark.bg-dark{
     height:50px;
 }
+a.nav-link.active{
+    color: #23a4c0 !important;
+}
