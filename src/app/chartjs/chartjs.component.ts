@@ -91,9 +91,9 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
 }
 
   createCharts(pieData,ctx,index,dialogService,jsons){
-      console.log(ctx.nativeElement.children[0]);
-      var tempChart = new Chart(ctx.nativeElement.children[0],pieData[index]);
-      document.getElementById(ctx.nativeElement.children[0].id).onclick = function(evt){
+      console.log(ctx.nativeElement.children[0].children[1].children[0]);
+      var tempChart = new Chart(ctx.nativeElement.children[0].children[1].children[0],pieData[index]);
+      document.getElementById(ctx.nativeElement.children[0].children[1].children[0].id).onclick = function(evt){
         var activePoints = tempChart.getElementAtEvent(evt);
         var firstPoint = activePoints[0];
         if(firstPoint!== undefined)
