@@ -19,6 +19,7 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
   charts = [];
   onlyChartData=[];
   i=0;
+  systemName=[];
   constructor( private _dataService : DataService, private dialogService : DialogService) { 
     this._dataService.getData().subscribe(data => {
       this.jsons = data
@@ -184,8 +185,9 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
               }
           }
         }
-        this.charts[k].options.title.text=this.jsons.data[0][1].systems[k].name;
-        this.charts[k].update();
+        // this.charts[k].options.title.text=this.jsons.data[0][1].systems[k].name;
+        // this.charts[k].update();
+        this.systemName.push(this.jsons.data[0][1].systems[k].name);
       }
     }
     else
