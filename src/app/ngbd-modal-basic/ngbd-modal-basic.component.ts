@@ -34,7 +34,6 @@ import {ClipboardModule} from 'ngx-clipboard'
     <ng-template #elseBlockB><p #inputTraget >{{message}}</p> </ng-template>   
     </div>
     <div class="modal-footer">
-      <button mat-raised-button color="primary" (click)="activeModal.close(false)">Cancel</button>
       <button mat-raised-button color="primary" (click)="activeModal.close(true)">Ok</button>
     </div>
   `
