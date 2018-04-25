@@ -1,0 +1,11 @@
+<script src="../../assets/Chart.PieceLabel.js"></script>
+<div>
+  <table>
+    <tr>
+      <td #chartCanvas *ngFor="let Data of onlyChartData; let i = index">
+      <canvas id="canvas{{i}}" width="300" height="300">{{charts}}</canvas>
+      </td>
+    </tr>
+      
+  </table>
+  </div>

@@ -1,0 +1,72 @@
+<mat-card>
+                <mat-card-content>
+                  <h2 class="example-h2">Hi Admin!</h2>
+                  <mat-tab-group class="demo-tab-group">
+                    <mat-tab label="Home">
+                      <div class="demo-tab-content">
+                        Admin Page
+                      </div>
+                    </mat-tab>
+                    <mat-tab label="Drives">
+                      <div class="demo-tab-content">
+                                <mat-card *ngIf="dataToshowA" class="example-card">
+                                                <mat-card-header>
+                                                  <mat-card-title>Drives</mat-card-title>
+                                                </mat-card-header>
+                                                <mat-card-content>
+                                                  <p>
+                                                        {{dataToshowA}}
+                                                  </p>
+                                                </mat-card-content>
+                                        </mat-card>
+                      </div>  
+                    </mat-tab>
+                    <mat-tab label="Systems">
+                                <div class="demo-tab-content">
+                                <mat-card *ngIf="dataToshowB" class="example-card">
+                                                <mat-card-header>
+                                                  <mat-card-title>Systems</mat-card-title>
+                                                </mat-card-header>
+                                                <mat-card-content>
+                                                  <p>
+                                                        {{dataToshowB}}
+                                                  </p>
+                                                </mat-card-content>
+                                        </mat-card> 
+                                        </div>
+                    </mat-tab>
+                    <mat-tab label="Failures">
+                      <div class="demo-tab-content">
+                                <mat-card *ngIf="dataToshowC" class="example-card">
+                                                <mat-card-header>
+                                                  <mat-card-title>Failures</mat-card-title>
+                                                </mat-card-header>
+                                                <mat-card-content>
+                                                  <p>
+                                                        {{dataToshowC}}
+                                                  </p>
+                                                </mat-card-content>
+                                        </mat-card>
+                      </div>  
+                    </mat-tab>
+                    <mat-tab label="Bugs">
+                        <div class="demo-tab-content">
+                                        <div *ngFor="let Data of bugsFromDb; let i = index">
+                                                        <mat-card class="example-card">
+                                                                <mat-card-header>
+                                                                  <mat-card-title>Bug Report</mat-card-title>
+                                                                  <mat-card-subtitle>Name:{{bugsFromDb[i].name}}</mat-card-subtitle>
+                                                                  <mat-card-subtitle>Date:{{bugsFromDb[i].date}}</mat-card-subtitle>
+                                                                </mat-card-header>
+                                                                <mat-card-content>
+                                                                  <p>
+                                                                        {{bugsFromDb[i].description}}
+                                                                  </p>
+                                                                </mat-card-content>
+                                                        </mat-card>
+                                                </div>
+                        </div>
+                    </mat-tab>
+                  </mat-tab-group>
+                </mat-card-content>
+              </mat-card>
