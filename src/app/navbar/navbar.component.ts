@@ -28,6 +28,7 @@ export class NavbarComponent implements OnInit,AfterViewInit {
       this.userinfo=data;
       if(this.userinfo._body.charAt(0)=='{')
       {
+        this.userinfo._body=this.userinfo._body.replace(/\\/g, '/');
         this.userinfo=JSON.parse(this.userinfo._body);
         console.log(this.userinfo.data[0].UserName);
         this.userName=this.userinfo.data[0].UserName;
@@ -41,8 +42,7 @@ export class NavbarComponent implements OnInit,AfterViewInit {
   getadminlist(){
     this._dataService.getAdminList().subscribe(data => {
       this.adminlist = data;
-      this.adminlist = JSON.parse(this.adminlist._body);
-      if(!this.adminlist[0].id.includes(this.userName))
+      if(this.adminlist._body.includes(this.userName))
       {
         console.log("admin connected");
         this.isAdminConnected=true;
