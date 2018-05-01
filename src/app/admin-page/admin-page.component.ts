@@ -4,6 +4,7 @@ import { DialogService} from '../ngbd-modal-basic/ngbd-modal-basic.component';
 import { Input } from '@angular/core/src/metadata/directives';
 import { NavbarComponent } from '../navbar/navbar.component'
 import { ConnectedUserService } from '../connected-user.service'
+import { MatTabChangeEvent } from '@angular/material';
 @Component({
   selector: 'app-admin-page',
   templateUrl: './admin-page.component.html',
@@ -11,6 +12,7 @@ import { ConnectedUserService } from '../connected-user.service'
 })
 export class AdminPageComponent implements OnInit,AfterViewInit {
   jsons: any;
+  showLoadingSpinner:boolean=false;
   bugsFromDb:any;
   adminlist:any;
   userinfo: any;
@@ -29,9 +31,9 @@ export class AdminPageComponent implements OnInit,AfterViewInit {
   constructor( private _dataService : DataService,private dialogService : DialogService, private userService: ConnectedUserService) { 
     this._dataService.getData().subscribe(data => {
       this.jsons = data
-      this.dataToshowA=JSON.stringify(data.data[0][0],undefined,2);
-      this.dataToshowB=JSON.stringify(data.data[0][1],undefined,2);
-      this.dataToshowC=JSON.stringify(data.data[0][2],undefined,2);
+      this.dataToshowA=data.data[0][0];
+      this.dataToshowB=data.data[0][1];
+      this.dataToshowC=data.data[0][2];
     });
     this.getUserInfo()
     this.getbugreportstempfunction()
@@ -151,5 +153,8 @@ export class AdminPageComponent implements OnInit,AfterViewInit {
     {
       this.showBugsBool=false;
     }
+  }
+  doSomething(){
+    console.log("clicked")
   }
 }
