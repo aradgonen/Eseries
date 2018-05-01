@@ -20,6 +20,8 @@ import { FormComponent } from './form/form.component';
 import { LoginRouteGuard } from './admin-page/LoginRouteGuard';
 import { ConnectedUserService } from './connected-user.service';
 import { MaterialModule } from './material.module'
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { FlexLayoutModule } from "@angular/flex-layout";
 const appRoutes: Routes = [
   { path: 'main', component: ChartjsComponent },{ path: '', component: ChartjsComponent },
   { path: 'admin', component: AdminPageComponent, canActivate:[LoginRouteGuard]}
@@ -47,7 +49,9 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
-    )
+    ),
+    FlexLayoutModule,
+    NgxJsonViewerModule
   ],
   entryComponents:[
     NgbdModalBasicComponent,
