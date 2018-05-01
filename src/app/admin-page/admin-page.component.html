@@ -9,15 +9,14 @@
                     </mat-tab>
                     <mat-tab label="Drives">
                       <div class="demo-tab-content">
-                                <mat-card *ngIf="dataToshowA" class="example-card">
+                                <mat-card class="example-card">
                                                 <mat-card-header>
                                                   <mat-card-title>Drives</mat-card-title>
                                                 </mat-card-header>
                                                 <mat-card-content>
-                                                  <p>
-                                                        {{dataToshowA}}
-                                                  </p>
+                                                  <ngx-json-viewer [json]="dataToshowA" [expanded]="false"></ngx-json-viewer>
                                                 </mat-card-content>
+
                                         </mat-card>
                       </div>  
                     </mat-tab>
@@ -28,9 +27,7 @@
                                                   <mat-card-title>Systems</mat-card-title>
                                                 </mat-card-header>
                                                 <mat-card-content>
-                                                  <p>
-                                                        {{dataToshowB}}
-                                                  </p>
+                                                      <ngx-json-viewer [json]="dataToshowB" [expanded]="false"></ngx-json-viewer>
                                                 </mat-card-content>
                                         </mat-card> 
                                         </div>
@@ -42,9 +39,7 @@
                                                   <mat-card-title>Failures</mat-card-title>
                                                 </mat-card-header>
                                                 <mat-card-content>
-                                                  <p>
-                                                        {{dataToshowC}}
-                                                  </p>
+                                                      <ngx-json-viewer [json]="dataToshowC" [expanded]="false"></ngx-json-viewer>
                                                 </mat-card-content>
                                         </mat-card>
                       </div>  
@@ -59,7 +54,7 @@
                                                                   <mat-card-subtitle>Date:{{bugsFromDb[i].date}}</mat-card-subtitle>
                                                                 </mat-card-header>
                                                                 <mat-card-content>
-                                                                  <p>
+                                                                    <p>
                                                                         {{bugsFromDb[i].description}}
                                                                   </p>
                                                                 </mat-card-content>
