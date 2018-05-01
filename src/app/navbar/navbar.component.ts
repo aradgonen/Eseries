@@ -42,16 +42,21 @@ export class NavbarComponent implements OnInit,AfterViewInit {
   getadminlist(){
     this._dataService.getAdminList().subscribe(data => {
       this.adminlist = data;
-      if(this.adminlist._body.includes(this.userName))
+      this.adminlist=JSON.parse(this.adminlist._body);
+      if(this.adminlist.length>0)
       {
-        console.log("admin connected");
-        this.isAdminConnected=true;
-        this.userService.setData(this.isAdminConnected,false,this.userName);
+      for(var i=0;i<this.adminlist.length;i++)
+      {
+        if(this.adminlist[i].id.includes(this.userName)){
+          console.log("admin connected");
+          this.isAdminConnected=true;
+          this.userService.setData(this.isAdminConnected,false,this.userName);
+        }
+      }
       }
       else
       {
         console.log(this.userName+"NOT ADMIN, Compared to:"+this.adminlist._body);
-
       }
     })
   }
