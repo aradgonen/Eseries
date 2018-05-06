@@ -31,7 +31,11 @@ import {ClipboardModule} from 'ngx-clipboard'
     </table>
     </div>
     <ng-template #elseBlockA><p *ngIf="bugreportscreen; else elseBlockB"><app-form></app-form></ng-template>
-    <ng-template #elseBlockB><p #inputTraget >{{message}}</p> </ng-template>   
+    <ng-template #elseBlockB><p *ngIf="isVolsPools; else elseBlockC"><p *ngFor="let data of message; let i = index">
+    {{message[i]}}
+    <br/>
+  </p></ng-template>
+    <ng-template #elseBlockC><p #inputTraget >{{message}}</p> </ng-template>   
     </div>
     <div class="modal-footer">
       <button mat-raised-button color="primary" (click)="activeModal.close(true)">Ok</button>
@@ -42,6 +46,7 @@ export class NgbdModalBasicComponent implements OnInit{
   @Input() title;
   @Input() message;
   isFailedDrives:boolean=false;
+  isVolsPools:boolean=false;
   bugreportscreen:boolean=false;
   failedDrivesInfo:JSON;
   constructor(public activeModal: NgbActiveModal, public changeRef: ChangeDetectorRef) {
@@ -53,6 +58,11 @@ export class NgbdModalBasicComponent implements OnInit{
     if(this.title=="Failed Drives")
     {
       this.isFailedDrives=true;
+      console.log("true");
+    }
+    if(this.title=="Vols&Pools")
+    {
+      this.isVolsPools=true;
       console.log("true");
     }
     if(this.title=="Enter Bug Details")
@@ -74,9 +84,21 @@ export class DialogService {
       callerMessage=JSON.parse(callerMessage);
       modalRef.componentInstance.failedDrivesInfo=callerMessage;
     }
-    modalRef.componentInstance.title = callerTitle;
-    modalRef.componentInstance.message = callerMessage;
-    modalRef.componentInstance.changeRef.markForCheck();
-    return modalRef.result;
+    if(callerTitle=="Vols&Pools")
+    {
+
+      modalRef.componentInstance.title = callerTitle;
+      modalRef.componentInstance.message = callerMessage.split("\n");
+      modalRef.componentInstance.changeRef.markForCheck();
+      return modalRef.result;
+    }
+    else
+    {
+      modalRef.componentInstance.title = callerTitle;
+      modalRef.componentInstance.message = callerMessage;
+      modalRef.componentInstance.changeRef.markForCheck();
+      return modalRef.result;
+    }
+
   }
 }

@@ -130,14 +130,29 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
             if(firstPoint._chart.config.data.datasets[0].backgroundColor[firstPoint._index]=="#ff0000")
               {
                 dialogService.confirm("Mgmt","");
-                
               }
           }
           if(firstPoint._index==2){
             console.log("Hardware: System #"+firstPoint._chart.config.options.title.text);
             if(firstPoint._chart.config.data.datasets[0].backgroundColor[firstPoint._index]=="#ff0000")
               {
-                dialogService.confirm("Hardware","");
+
+                var outputMessage="";
+                for(var x = 0;x<jsons.data[0][2].length;x++)
+                {
+                  
+                    if(jsons.data[0][2][x].failureType=="drawerDegraded")
+                    {
+                      outputMessage+="drawerDegraded \n -----------------------";
+                    }
+                    if(jsons.data[0][2][x].failureType=="usmUnreadableSectorsExist")
+                    {
+                      outputMessage+="\n usmUnreadableSectorsExist \n databasecount -> unreadablesectors \n -----------------------";
+
+                    }
+                   
+                }
+                dialogService.confirm("Vols&Pools",outputMessage);
               }
           }
           if(firstPoint._index==3){
@@ -151,7 +166,27 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
             console.log("VolsPols: System #"+firstPoint._chart.config.options.title.text);
             if(firstPoint._chart.config.data.datasets[0].backgroundColor[firstPoint._index]=="#ff0000")
               {
-                dialogService.confirm("Vols&Pols",JSON.stringify(jsons.data[0][2][0].failureType));
+                var outputMessage="";
+                for(var x = 0;x<jsons.data[0][2].length;x++)
+                {
+                  
+                    if(jsons.data[0][2][x].failureType=="diskPoolReconstructionDriveCountBelowThreshold")
+                    {
+                      outputMessage+="diskPoolReconstructionDriveCountBelowThreshold -> Not Enough Spares \n Disk Pool:"+jsons.data[0][2][x].objectData.label+"\n Required Reserved Drive Count:"+jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount+"\n Current Reserved Drive Count:"+jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent+"\n -----------------------";
+                    }
+                    if(jsons.data[0][2][x].failureType=="diskPoolCapacityDepleted")
+                    {
+                      outputMessage+="\n diskPoolCapacityDepleted \n Disk Pool:"+jsons.data[0][2][x].objectData.label+"\n Required Reserved Drive Count:"+jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount+"\n Current Reserved Drive Count:"+jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent+"\n Used Capacity:"+jsons.data[0][2][x].objectData.usedSpace+"\n Free Capacity:"+jsons.data[0][2][x].objectData.freeSpace+"\n -----------------------";
+
+                    }
+                    if(jsons.data[0][2][x].failureType=="degradedVolume")
+                    {
+                      outputMessage+="\n degradedVolume \n Disk Pool:"+jsons.data[0][2][x].objectData.label+"Replace Disks Cyka Blyat \n -----------------------";
+
+                    }
+                   
+                }
+                dialogService.confirm("Vols&Pools",outputMessage);
               }
           }
       }
@@ -183,6 +218,13 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
                   this.charts[k].config.data.datasets[0].backgroundColor[4]="#ff0000";
                   this.charts[k].update();
               }
+              if(this.jsons.data[0][2][x].failureType=="drawerDegraded"||this.jsons.data[0][2][x].failureType=="usmUnreadableSectorsExist")
+              {
+                console.log(k+"-hardwareToRed");
+                  this.charts[k].config.data.datasets[0].backgroundColor[2]="#ff0000";
+                  this.charts[k].update();
+              }
+              
           }
         }
         // this.charts[k].options.title.text=this.jsons.data[0][1].systems[k].name;
