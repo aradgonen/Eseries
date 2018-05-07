@@ -8,8 +8,8 @@ const NetAppData = require('./server/routes/NetAppDemo');
 const MongoDBapi = require('./server/routes/Mongo');
 const readFromMongo = require('./server/routes/readFromMongo');
 const AuthUser = require('./server/routes/AuthUser');
-const AdminPage = require('./server/routes/AdminPage');
 const BugReport = require('./server/routes/BugReport');
+const ntlm = require('express-ntlm');
 var StillNeedUserInfo = true;
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -19,16 +19,18 @@ app.use(function(req, res, next) {
 // Parsers
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
-
+app.use(ntlm());
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/readFromMongo', readFromMongo);
 app.use('/AuthUser', AuthUser);
-app.use('/AdminPage',AdminPage);
 app.use('/BugReport',BugReport);
 // Send all other requests to the Angular app
 app.get('/snake',(req,res)=>{
     res.sendFile(path.join(__dirname,'dist/assets/snake.html'));
+})
+app.get('/AuthUser/UserInfo',(req,res)=>{
+    res.json(req.ntlm);
 })
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));

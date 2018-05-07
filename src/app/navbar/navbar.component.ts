@@ -20,23 +20,12 @@ export class NavbarComponent implements OnInit,AfterViewInit {
   }
   ngAfterViewInit(){
     this.getUserInfo();
-    //this.getDate();
   }
-  getUserInfo()
-  {
+  getUserInfo(){
     this._dataService.getUserInfo().subscribe(data =>{
-      this.userinfo=data;
-      if(this.userinfo._body.charAt(0)=='{')
-      {
-        this.userinfo._body=this.userinfo._body.replace(/\\/g, '/');
-        this.userinfo=JSON.parse(this.userinfo._body);
-        console.log(this.userinfo.data[0].UserName);
-        this.userName=this.userinfo.data[0].UserName;
-        this.getadminlist();
-      }
-      else{
-        this.getUserInfo();
-      }
+      this.userinfo=JSON.parse(data._body);
+      this.userName=this.userinfo.DomainName+"//"+this.userinfo.UserName;
+      this.getadminlist();
     })
   }
   getadminlist(){

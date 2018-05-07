@@ -6,14 +6,11 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { DataService } from './data.service';
 import { NavbarComponent } from './navbar/navbar.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { ChartjsComponent } from './chartjs/chartjs.component';
-import { EasterEggComponent } from './easter-egg/easter-egg.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogService,NgbdModalBasicComponent } from './ngbd-modal-basic/ngbd-modal-basic.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
-import {ClipboardModule} from 'ngx-clipboard';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { FormComponent } from './form/form.component';
@@ -30,12 +27,10 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     NavbarComponent,
-    SidebarComponent,
     ChartjsComponent,
     NgbdModalBasicComponent,
     AdminPageComponent,
     FormComponent,
-    EasterEggComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +40,6 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     FormsModule,
     MaterialModule,
-    ClipboardModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
@@ -55,9 +49,8 @@ const appRoutes: Routes = [
   ],
   entryComponents:[
     NgbdModalBasicComponent,
-    ChartjsComponent,
-    EasterEggComponent
-  ],
+    ChartjsComponent
+    ],
   providers: [DataService,
     DialogService,
     LoginRouteGuard,
