@@ -14,7 +14,7 @@
                                                   <mat-card-title>Drives</mat-card-title>
                                                 </mat-card-header>
                                                 <mat-card-content>
-                                                  <ngx-json-viewer [json]="dataToshowA" [expanded]="false"></ngx-json-viewer>
+                                                  <ngx-json-viewer [json]="dataToshowA" [expanded]="false" [cleanOnChange]="true"></ngx-json-viewer>
                                                 </mat-card-content>
 
                                         </mat-card>
@@ -27,7 +27,7 @@
                                                   <mat-card-title>Systems</mat-card-title>
                                                 </mat-card-header>
                                                 <mat-card-content>
-                                                      <ngx-json-viewer [json]="dataToshowB" [expanded]="false"></ngx-json-viewer>
+                                                      <ngx-json-viewer [json]="dataToshowB" [expanded]="false" [cleanOnChange]="true"></ngx-json-viewer>
                                                 </mat-card-content>
                                         </mat-card> 
                                         </div>
@@ -39,7 +39,7 @@
                                                   <mat-card-title>Failures</mat-card-title>
                                                 </mat-card-header>
                                                 <mat-card-content>
-                                                      <ngx-json-viewer [json]="dataToshowC" [expanded]="false" [cleanOnChange]="false"></ngx-json-viewer>
+                                                      <ngx-json-viewer [json]="dataToshowC" [expanded]="false" [cleanOnChange]="true"></ngx-json-viewer>
                                                 </mat-card-content>
                                         </mat-card>
                       </div>  

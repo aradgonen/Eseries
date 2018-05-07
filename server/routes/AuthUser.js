@@ -1,8 +1,6 @@
 const express = require('express');//express module
 const router = express.Router();//express-router module
 var path = require('path');
-var userName = process.env['USERPROFILE'].split(path.sep)[2];
-var loginId = path.join("domainName",userName);
 const MongoClient = require('mongodb').MongoClient;//mongo module and client
 const ObjectID = require('mongodb').ObjectID;//object ID-useful for data sorting
 
@@ -50,7 +48,6 @@ router.get('/UserInfo', (req, res,next) => {
         console.log(res.statusCode);    
         res.json(response);
     }
-    console.log(this.username);
 }); 
 router.get('/UserInfo/Admins', (req, res) => {
         connection((db) => {
