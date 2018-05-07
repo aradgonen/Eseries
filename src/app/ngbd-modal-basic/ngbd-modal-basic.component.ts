@@ -7,7 +7,6 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 import {NgbModal, NgbModalOptions, NgbActiveModal,  ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {Component, Input, OnInit, ApplicationRef, ChangeDetectorRef} from '@angular/core';
-import {ClipboardModule} from 'ngx-clipboard'
 @Component({
   template: `
     <div class="modal-header">
