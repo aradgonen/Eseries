@@ -4,3 +4,6 @@
 a.nav-link.active{
     color: #23a4c0 !important;
 }
+:host >>> .tooltip-inner {
+    min-width: 250px;
+  }

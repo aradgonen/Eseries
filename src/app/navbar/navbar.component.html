@@ -16,17 +16,15 @@
     </div>
 </nav>
 <nav class="navbar fixed-bottom navbar-dark bg-dark">
-  <a class="navbar-brand mx-auto"><font color="white">{{CurDate}}</font></a>
+  <a class="navbar-brand mx-auto"><font color="white" >{{CurDate}}</font></a>
   <a class="navbar-brand">
-    <ng-template #tipContent>Vols&Pools: ניצולת האחסון בווליומים (שטח אחסון המוקצה למשתמש) תקלה פה אומרת שיש ווליום עם 100% תפוסה
-        Disks: דיסק תקול , לא מספיק ספיירים
-        FC: תקלה בתקשורת של FC 
-        (פרוטוקול תקשורת) 
-        רכיב תקול  
-        Hardware: חיישנים, ספקי כוח תקולים
-        Mgmt: שעון לא נכון, בעיה בתקשורת הניהול (ניהול מערכת)
+    <ng-template #tipContent  >
+      <div><a><h1>Vols&Pools:</h1>יצולת האחסון בווליומים (שטח אחסון המוקצה למשתמש) תקלה פה אומרת שיש ווליום עם 100% תפוסה</a>
+        <a><h1>Disks:</h1>דיסק תקול , לא מספיק ספיירים</a>
+        <a><h1>FC:</h1>פרוטוקול תקשורת, תקבלה בFC, רכיב תקול</a>
+        <a><h1>Hardware:</h1>חיישנים, ספקי כוח תקולים</a>
+        <a><h1>Mgmt:</h1>שעון לא נכון, בעיה בתקשורת הניהול (ניהול מערכת)</a>
+      </div>
         </ng-template>
-    <img src="../../assets/help.png" width="50" height="50" class="d-inline-block align-center" [ngbTooltip]="tipContent"/></a>  
-    <!-- <span matTooltip="This is the tooltip message" #tooltip="matTooltip" matTooltipPosition="above"></span> -->
-    
+    <img src="../../assets/help.png" class="d-inline-block align-center" [ngbTooltip]="tipContent" placement="top-right"/></a>  
 </nav>
