@@ -39,7 +39,7 @@ import {Component, Input, OnInit, ApplicationRef, ChangeDetectorRef} from '@angu
     <div class="modal-footer">
       <button mat-raised-button color="primary" (click)="activeModal.close(true)">Ok</button>
     </div>
-  `
+  ` //all of this code is actually the html file, but angular allow to write it here instead of a seperate file
 })
 export class NgbdModalBasicComponent implements OnInit{
   @Input() title;
@@ -52,7 +52,7 @@ export class NgbdModalBasicComponent implements OnInit{
     console.log("DialogComponent construct");
   }
    
-  ngOnInit() {
+  ngOnInit() {//initialize bools
     console.log("DialogComponent init");
     if(this.title=="Failed Drives")
     {
@@ -75,10 +75,10 @@ export class NgbdModalBasicComponent implements OnInit{
 export class DialogService {  
   constructor(private modalService: NgbModal) {}
    
-  confirm(callerTitle,callerMessage) {
+  confirm(callerTitle,callerMessage) {//the opening modal function
     
     const modalRef = this.modalService.open(NgbdModalBasicComponent,{size: 'lg'});
-    if(callerTitle=="Failed Drives")
+    if(callerTitle=="Failed Drives")//determine header for modal
     {
       callerMessage=JSON.parse(callerMessage);
       modalRef.componentInstance.failedDrivesInfo=callerMessage;

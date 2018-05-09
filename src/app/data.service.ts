@@ -38,28 +38,28 @@ export class DataService {
   };
   
  
-  getData() {
+  getData() {//send http get to server to get data, map it and parse it to json format
     console.log("asking for data");
     return this._http.get("/readFromMongo/data").map(res => res.json())
   }
-  getUserInfo(){
+  getUserInfo(){//send http get to server
     
     console.log("asking for user info");
     this.tempString = this._http.get("/AuthUser/UserInfo")
     return this.tempString;
   }
-  sendBugReport(report:Report): Observable<Report>{
+  sendBugReport(report:Report): Observable<Report>{//send http post to server
     console.log("sending bug report to server");
     return this.httpclient.post<Report>("/BugReport/SaveReport", report, httpOptions)
     .pipe(
       catchError(this.handleError)
     );
   }
-  getBugReports(){
+  getBugReports(){//send http get to server
     console.log("asking for bug reports");
     return this._http.get("/BugReport/AllBugs");
   }
-  getAdminList(){
+  getAdminList(){//send http get to server
     console.log("asking for admin list");
     return this._http.get("/AuthUser/UserInfo/Admins");
   }

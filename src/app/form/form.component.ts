@@ -14,7 +14,7 @@ export class FormComponent {
   submitted = false;
   launchEasterEgg = false;
 
-  onSubmit() { 
+  onSubmit() { //when submit button is clicked
     if(this.model.description!="AradTheKing")
     {
       console.log(this.model)
@@ -28,7 +28,7 @@ export class FormComponent {
   get diagnostic() { 
     return JSON.stringify(this.model);
    }
-  submited(){
+  submited(){//when submitted
     this.isSubmited=true;
     this._dataService.sendBugReport(this.model).subscribe(report=>{
       console.log("sent to server");

@@ -20,7 +20,7 @@ import { MaterialModule } from './material.module'
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { FlexLayoutModule } from "@angular/flex-layout";
 const appRoutes: Routes = [
-  { path: 'main', component: ChartjsComponent },{ path: '', component: ChartjsComponent },
+  { path: 'main', component: ChartjsComponent },{ path: '',redirectTo: '/main',pathMatch: 'full'},
   { path: 'admin', component: AdminPageComponent, canActivate:[LoginRouteGuard]}
 ];
 @NgModule({
