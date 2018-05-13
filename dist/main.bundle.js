@@ -258,7 +258,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<html>\r\n    <body>\r\n        <div class=\"wrapper\">\r\n            <app-navbar></app-navbar>\r\n            <div id=\"content\">\r\n                    <router-outlet></router-outlet>\r\n            </div>\r\n        </div>\r\n    </body>\r\n</html>\r\n"
+module.exports = "<html>\n    <body>\n        <div class=\"wrapper\">\n            <app-navbar></app-navbar>\n            <div id=\"content\">\n                    <router-outlet></router-outlet>\n            </div>\n        </div>\n    </body>\n</html>\n"
 
 /***/ }),
 
@@ -345,7 +345,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 var appRoutes = [
-    { path: 'main', component: __WEBPACK_IMPORTED_MODULE_7__chartjs_chartjs_component__["a" /* ChartjsComponent */] }, { path: '', component: __WEBPACK_IMPORTED_MODULE_7__chartjs_chartjs_component__["a" /* ChartjsComponent */] },
+    { path: 'main', component: __WEBPACK_IMPORTED_MODULE_7__chartjs_chartjs_component__["a" /* ChartjsComponent */] }, { path: '', redirectTo: '/main', pathMatch: 'full' },
     { path: 'admin', component: __WEBPACK_IMPORTED_MODULE_13__admin_page_admin_page_component__["a" /* AdminPageComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_15__admin_page_LoginRouteGuard__["a" /* LoginRouteGuard */]] }
 ];
 var AppModule = /** @class */ (function () {
@@ -451,14 +451,14 @@ var ChartjsComponent = /** @class */ (function () {
         var _this = this;
         this._dataService = _dataService;
         this.dialogService = dialogService;
-        this.charts = [];
-        this.onlyChartData = [];
+        this.charts = []; //will save all of the charts data to render them
+        this.onlyChartData = []; //secondery array for the charts
         this.i = 0;
-        this.systemName = [];
+        this.systemName = []; //array of systems names
         this._dataService.getData().subscribe(function (data) {
             _this.jsons = data;
-            _this.NumberOfSystems = _this.jsons.data[0][1].systems.length;
-            _this.createChartsData();
+            _this.NumberOfSystems = _this.jsons.data[0][1].systems.length; //get number of systems
+            _this.createChartsData(); //call the function
         });
     }
     ChartjsComponent.prototype.ngOnInit = function () {
@@ -469,9 +469,9 @@ var ChartjsComponent = /** @class */ (function () {
         this.ChartCanvas.changes.subscribe(function (c) {
             _this.ChartCanvas.toArray().forEach(function (item) {
                 console.log(item + "-----" + _this.i);
-                _this.createCharts(_this.onlyChartData, item, _this.i, _this.dialogService, _this.jsons);
+                _this.createCharts(_this.onlyChartData, item, _this.i, _this.dialogService, _this.jsons); //build chart to each canvas
             });
-            _this.putDatainChart();
+            _this.putDatainChart(); //enter data 
         });
     };
     ChartjsComponent.prototype.createChartsData = function () {
@@ -519,7 +519,7 @@ var ChartjsComponent = /** @class */ (function () {
                     }
                 }
             };
-            this.onlyChartData.push(pie);
+            this.onlyChartData.push(pie); //store it
         }
     };
     ChartjsComponent.prototype.createCharts = function (pieData, ctx, index, dialogService, jsons) {
@@ -527,7 +527,7 @@ var ChartjsComponent = /** @class */ (function () {
         var tempChart = new __WEBPACK_IMPORTED_MODULE_2_chart_js__["Chart"](ctx.nativeElement.children[0].children[1].children[0], pieData[index]);
         document.getElementById(ctx.nativeElement.children[0].children[1].children[0].id).onclick = function (evt) {
             var activePoints = tempChart.getElementAtEvent(evt);
-            var firstPoint = activePoints[0];
+            var firstPoint = activePoints[0]; //set click listeners to charts and assign actions
             if (firstPoint !== undefined) {
                 if (firstPoint._index == 0) {
                     console.log("Drives: System #" + firstPoint._chart.config.options.title.text);
@@ -541,18 +541,18 @@ var ChartjsComponent = /** @class */ (function () {
                                 console.log(NumOfFailDrives);
                                 errorID = x;
                                 for (var q = 0; q < NumOfFailDrives; q++) {
-                                    failedDrive.push({ tray: jsons.data[0][2][errorID].extraData.failedDrives[q].physicalLocation.locationPosition, slot: jsons.data[0][2][errorID].extraData.failedDrives[q].physicalLocation.slot, status: jsons.data[0][2][errorID].extraData.failedDrives[q].status, capacity: jsons.data[0][2][errorID].extraData.failedDrives[q].rawCapacity, interfaceType: jsons.data[0][2][errorID].extraData.failedDrives[q].interfaceType.driveType, id: jsons.data[0][2][errorID].extraData.failedDrives[q].productID });
+                                    failedDrive.push({ tray: jsons.data[0][2][errorID].extraData.failedDrives[q].physicalLocation.locationPosition, slot: jsons.data[0][2][errorID].extraData.failedDrives[q].physicalLocation.slot, status: jsons.data[0][2][errorID].extraData.failedDrives[q].status, capacity: jsons.data[0][2][errorID].extraData.failedDrives[q].rawCapacity, interfaceType: jsons.data[0][2][errorID].extraData.failedDrives[q].interfaceType.driveType, id: jsons.data[0][2][errorID].extraData.failedDrives[q].productID }); //the string to show
                                     console.log(q);
                                 }
                             }
                         }
-                        dialogService.confirm("Failed Drives", JSON.stringify(failedDrive));
+                        dialogService.confirm("Failed Drives", JSON.stringify(failedDrive)); //calling to function that open the modal
                     }
                 }
                 if (firstPoint._index == 1) {
                     console.log("Mgmt: System #" + firstPoint._chart.config.options.title.text);
                     if (firstPoint._chart.config.data.datasets[0].backgroundColor[firstPoint._index] == "#ff0000") {
-                        dialogService.confirm("Mgmt", "");
+                        dialogService.confirm("Mgmt", ""); //calling to function that open the modal
                     }
                 }
                 if (firstPoint._index == 2) {
@@ -567,7 +567,7 @@ var ChartjsComponent = /** @class */ (function () {
                                 outputMessage += "\n usmUnreadableSectorsExist \n databasecount -> unreadablesectors \n -----------------------";
                             }
                         }
-                        dialogService.confirm("Vols&Pools", outputMessage);
+                        dialogService.confirm("Hardware", outputMessage); //calling to function that open the modal
                     }
                 }
                 if (firstPoint._index == 3) {
@@ -591,13 +591,13 @@ var ChartjsComponent = /** @class */ (function () {
                                 outputMessage += "\n degradedVolume \n Disk Pool:" + jsons.data[0][2][x].objectData.label + "Replace Disks Cyka Blyat \n -----------------------";
                             }
                         }
-                        dialogService.confirm("Vols&Pools", outputMessage);
+                        dialogService.confirm("Vols&Pools", outputMessage); //calling to function that open the modal
                     }
                 }
             }
         };
-        this.charts.push(tempChart);
-        this.i++;
+        this.charts.push(tempChart); //store data
+        this.i++; //store index
     };
     ChartjsComponent.prototype.putDatainChart = function () {
         if (this.jsons) {
@@ -609,7 +609,6 @@ var ChartjsComponent = /** @class */ (function () {
                             console.log(k + "-diskToRed");
                             this.charts[k].config.data.datasets[0].backgroundColor[0] = "#ff0000";
                             this.charts[k].update();
-                            //this.DiskFailData(k);
                         }
                         if (this.jsons.data[0][2][x].failureType == "diskPoolReconstructionDriveCountBelowThreshold" || this.jsons.data[0][2][x].failureType == "diskPoolCapacityDepleted") {
                             console.log(k + "-volspolsToRed");
@@ -623,9 +622,7 @@ var ChartjsComponent = /** @class */ (function () {
                         }
                     }
                 }
-                // this.charts[k].options.title.text=this.jsons.data[0][1].systems[k].name;
-                // this.charts[k].update();
-                this.systemName.push(this.jsons.data[0][1].systems[k].name);
+                this.systemName.push(this.jsons.data[0][1].systems[k].name); //store system names
             }
         }
         else {
@@ -800,7 +797,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/form/form.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <form (ngSubmit)=\"onSubmit()\" #ReportForm=\"ngForm\">\r\n    <div class=\"form-group\">\r\n      <label for=\"name\">Name</label>\r\n      <input type=\"text\" class=\"form-control\" id=\"name\" required [(ngModel)]=\"model.name\" name=\"name\">\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"Description\">Description</label>\r\n      <input type=\"text\" class=\"form-control\" id=\"description\" required [(ngModel)]=\"model.description\" name=\"description\">\r\n    </div>\r\n\r\n    <button type=\"submit\" class=\"btn btn-success\" (click)=\"submited()\">Submit</button>\r\n    <a *ngIf=\"isSubmited\">Sent</a>\r\n    <a *ngIf=\"launchEasterEgg\" href=\"/snake\" target=\"_blank\">\r\n        <img  src=\"../../assets/EasterEgg.png\" width=\"50\" height=\"50\" alt=\"/snake\"/>\r\n    </a>\r\n    \r\n  </form>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\n  <form (ngSubmit)=\"onSubmit()\" #ReportForm=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input type=\"text\" class=\"form-control\" id=\"name\" required [(ngModel)]=\"model.name\" name=\"name\">\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"Description\">Description</label>\n      <input type=\"text\" class=\"form-control\" id=\"description\" required [(ngModel)]=\"model.description\" name=\"description\">\n    </div>\n\n    <button type=\"submit\" class=\"btn btn-success\" (click)=\"submited()\">Submit</button>\n    <a *ngIf=\"isSubmited\">Sent</a>\n    <a *ngIf=\"launchEasterEgg\" href=\"/snake\" target=\"_blank\">\n        <img  src=\"../../assets/EasterEgg.png\" width=\"50\" height=\"50\" alt=\"/snake\"/>\n    </a>\n    \n  </form>\n</div>\n"
 
 /***/ }),
 
@@ -896,7 +893,8 @@ var MaterialModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_1__angular_material__["c" /* MatIconModule */],
                 __WEBPACK_IMPORTED_MODULE_1__angular_material__["b" /* MatCardModule */],
                 __WEBPACK_IMPORTED_MODULE_1__angular_material__["f" /* MatTabsModule */],
-                __WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MatProgressSpinnerModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MatProgressSpinnerModule */],
+                __WEBPACK_IMPORTED_MODULE_1__angular_material__["h" /* MatTooltipModule */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MatButtonModule */],
@@ -905,7 +903,8 @@ var MaterialModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_1__angular_material__["c" /* MatIconModule */],
                 __WEBPACK_IMPORTED_MODULE_1__angular_material__["b" /* MatCardModule */],
                 __WEBPACK_IMPORTED_MODULE_1__angular_material__["f" /* MatTabsModule */],
-                __WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MatProgressSpinnerModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MatProgressSpinnerModule */],
+                __WEBPACK_IMPORTED_MODULE_1__angular_material__["h" /* MatTooltipModule */]
             ]
         })
     ], MaterialModule);
@@ -924,7 +923,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".navbar.fixed-bottom.navbar-dark.bg-dark{\r\n    height:50px;\r\n}\r\na.nav-link.active{\r\n    color: #23a4c0 !important;\r\n}", ""]);
+exports.push([module.i, ".navbar.fixed-bottom.navbar-dark.bg-dark{\r\n    height:50px;\r\n}\r\na.nav-link.active{\r\n    color: #23a4c0 !important;\r\n}\r\n:host >>> .tooltip-inner {\r\n    min-width: 250px;\r\n  }", ""]);
 
 // exports
 
@@ -937,7 +936,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar sticky-top navbar-dark bg-dark\">\r\n  <a class=\"navbar-brand\" href=\"#\">\r\n    <img src=\"../../assets/owl.png\" width=\"50\" height=\"50\" class=\"d-inline-block align-center\" alt=\"\"/>E-Series Dashboard</a>     \r\n  <ul class=\"navbar-nav mr-auto\">\r\n  <li class=\"navbar-item\">\r\n    <a class=\"nav-link\" routerLink=\"/main\" routerLinkActive=\"active\">Main</a>\r\n  </li>\r\n</ul>  \r\n    <div ngbDropdown placement=\"bottom-right\" class=\"d-inline-block\">\r\n        <a *ngIf=\"userName; else elseBlock\" class=\"nav-link dropdown-toggle\" id=\"dropdownBasic1\" ngbDropdownToggle><font color=\"white\">{{userName}}</font></a>\r\n        <ng-template #elseBlock><a class=\"nav-link dropdown-toggle\" id=\"dropdownBasic1\" ngbDropdownToggle><font color=\"white\">Guest</font></a></ng-template>\r\n        <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\r\n          <button *ngIf=\"isAdminConnected\" routerLink=\"/admin\" class=\"dropdown-item\">Admin Page</button>\r\n          <button class=\"dropdown-item\" (click)=\"BugReport()\">Bug Report</button>\r\n        </div>\r\n    </div>\r\n</nav>\r\n<nav class=\"navbar fixed-bottom navbar-dark bg-dark\">\r\n  <a class=\"navbar-brand mx-auto\"><font color=\"white\">{{CurDate}}</font></a>\r\n  <a class=\"navbar-brand\" href=\"#\">\r\n    <img src=\"../../assets/help.png\" width=\"50\" height=\"50\" class=\"d-inline-block align-center\"/></a>  \r\n</nav>"
+module.exports = "<nav class=\"navbar sticky-top navbar-dark bg-dark\">\r\n  <a class=\"navbar-brand\" href=\"#\">\r\n    <img src=\"../../assets/owl.png\" width=\"50\" height=\"50\" class=\"d-inline-block align-center\" alt=\"\"/>E-Series Dashboard</a>     \r\n  <ul class=\"navbar-nav mr-auto\">\r\n  <li class=\"navbar-item\">\r\n    <a class=\"nav-link\" routerLink=\"/main\" routerLinkActive=\"active\">Main</a>\r\n  </li>\r\n</ul>  \r\n    <div ngbDropdown placement=\"bottom-right\" class=\"d-inline-block\">\r\n        <a *ngIf=\"userName; else elseBlock\" class=\"nav-link dropdown-toggle\" id=\"dropdownBasic1\" ngbDropdownToggle><font color=\"white\">{{userName}}</font></a>\r\n        <ng-template #elseBlock><a class=\"nav-link dropdown-toggle\" id=\"dropdownBasic1\" ngbDropdownToggle><font color=\"white\">Guest</font></a></ng-template>\r\n        <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\r\n          <button *ngIf=\"isAdminConnected\" routerLink=\"/admin\" class=\"dropdown-item\">Admin Page</button>\r\n          <button class=\"dropdown-item\" (click)=\"BugReport()\">Bug Report</button>\r\n        </div>\r\n    </div>\r\n</nav>\r\n<nav class=\"navbar fixed-bottom navbar-dark bg-dark\">\r\n  <a class=\"navbar-brand mx-auto\"><font color=\"white\" >{{CurDate}}</font></a>\r\n  <a class=\"navbar-brand\">\r\n    <ng-template #tipContent  >\r\n      <div><a><h1>Vols&Pools:</h1>ניצולת האחסון בווליומים (שטח אחסון המוקצה למשתמש) תקלה פה אומרת שיש ווליום עם 100% תפוסה</a>\r\n        <a><h1>Disks:</h1>דיסק תקול , לא מספיק ספיירים</a>\r\n        <a><h1>FC:</h1>פרוטוקול תקשורת, תקבלה בFC, רכיב תקול</a>\r\n        <a><h1>Hardware:</h1>חיישנים, ספקי כוח תקולים</a>\r\n        <a><h1>Mgmt:</h1>שעון לא נכון, בעיה בתקשורת הניהול (ניהול מערכת)</a>\r\n      </div>\r\n        </ng-template>\r\n    <img src=\"../../assets/help.png\" class=\"d-inline-block align-center\" [ngbTooltip]=\"tipContent\" placement=\"top-right\"/></a>  \r\n</nav>"
 
 /***/ }),
 
@@ -978,8 +977,8 @@ var NavbarComponent = /** @class */ (function () {
     NavbarComponent.prototype.getUserInfo = function () {
         var _this = this;
         this._dataService.getUserInfo().subscribe(function (data) {
-            _this.userinfo = JSON.parse(data._body);
-            _this.userName = _this.userinfo.DomainName + "//" + _this.userinfo.UserName;
+            _this.userinfo = JSON.parse(data._body); //parse it to JSON format
+            _this.userName = _this.userinfo.DomainName + "//" + _this.userinfo.UserName; //build string to show
             _this.getadminlist();
         });
     };
@@ -987,13 +986,13 @@ var NavbarComponent = /** @class */ (function () {
         var _this = this;
         this._dataService.getAdminList().subscribe(function (data) {
             _this.adminlist = data;
-            _this.adminlist = JSON.parse(_this.adminlist._body);
+            _this.adminlist = JSON.parse(_this.adminlist._body); //parse to JSON format
             if (_this.adminlist.length > 0) {
                 for (var i = 0; i < _this.adminlist.length; i++) {
                     if (_this.adminlist[i].id.includes(_this.userName)) {
                         console.log("admin connected");
                         _this.isAdminConnected = true;
-                        _this.userService.setData(_this.isAdminConnected, false, _this.userName);
+                        _this.userService.setData(_this.isAdminConnected, false, _this.userName); //set the data to connected user service
                     }
                 }
             }
@@ -1085,7 +1084,7 @@ var NgbdModalBasicComponent = /** @class */ (function () {
     ], NgbdModalBasicComponent.prototype, "message", void 0);
     NgbdModalBasicComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            template: "\n    <div class=\"modal-header\">\n      <h4 class=\"modal-title\">{{ title }}</h4>\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n    </div>\n    <div class=\"modal-body\">\n    <div *ngIf=\"isFailedDrives; else elseBlockA\">\n    <table class=\"table\">\n    <td>Tray</td><td>Slot</td><td>Status</td><td>Capacity</td><td>Interface Type</td><td>ID</td>\n    <tr *ngFor=\"let Data of failedDrivesInfo; let i = index\">\n    <td>{{failedDrivesInfo[i].tray}}</td>\n    <td>{{failedDrivesInfo[i].slot}}</td>\n    <td>{{failedDrivesInfo[i].status}}</td>\n    <td>{{failedDrivesInfo[i].capacity}}</td>\n    <td>{{failedDrivesInfo[i].interfaceType}}</td>\n    <td>{{failedDrivesInfo[i].id}}</td>\n    </tr>\n    </table>\n    </div>\n    <ng-template #elseBlockA><p *ngIf=\"bugreportscreen; else elseBlockB\"><app-form></app-form></ng-template>\n    <ng-template #elseBlockB><p *ngIf=\"isVolsPools; else elseBlockC\"><p *ngFor=\"let data of message; let i = index\">\n    {{message[i]}}\n    <br/>\n  </p></ng-template>\n    <ng-template #elseBlockC><p #inputTraget >{{message}}</p> </ng-template>   \n    </div>\n    <div class=\"modal-footer\">\n      <button mat-raised-button color=\"primary\" (click)=\"activeModal.close(true)\">Ok</button>\n    </div>\n  "
+            template: "\n    <div class=\"modal-header\">\n      <h4 class=\"modal-title\">{{ title }}</h4>\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n    </div>\n    <div class=\"modal-body\">\n    <div *ngIf=\"isFailedDrives; else elseBlockA\">\n    <table class=\"table\">\n    <td>Tray</td><td>Slot</td><td>Status</td><td>Capacity</td><td>Interface Type</td><td>ID</td>\n    <tr *ngFor=\"let Data of failedDrivesInfo; let i = index\">\n    <td>{{failedDrivesInfo[i].tray}}</td>\n    <td>{{failedDrivesInfo[i].slot}}</td>\n    <td>{{failedDrivesInfo[i].status}}</td>\n    <td>{{failedDrivesInfo[i].capacity}}</td>\n    <td>{{failedDrivesInfo[i].interfaceType}}</td>\n    <td>{{failedDrivesInfo[i].id}}</td>\n    </tr>\n    </table>\n    </div>\n    <ng-template #elseBlockA><p *ngIf=\"bugreportscreen; else elseBlockB\"><app-form></app-form></ng-template>\n    <ng-template #elseBlockB><p *ngIf=\"isVolsPools; else elseBlockC\"><p *ngFor=\"let data of message; let i = index\">\n    {{message[i]}}\n    <br/>\n  </p></ng-template>\n    <ng-template #elseBlockC><p #inputTraget >{{message}}</p> </ng-template>   \n    </div>\n    <div class=\"modal-footer\">\n      <button mat-raised-button color=\"primary\" (click)=\"activeModal.close(true)\">Ok</button>\n    </div>\n  " //all of this code is actually the html file, but angular allow to write it here instead of a seperate file
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["a" /* NgbActiveModal */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectorRef */]])
     ], NgbdModalBasicComponent);
