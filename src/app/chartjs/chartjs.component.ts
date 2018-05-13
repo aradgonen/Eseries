@@ -136,17 +136,17 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
             if(firstPoint._chart.config.data.datasets[0].backgroundColor[firstPoint._index]=="#ff0000")//if red
               {
 
-                var outputMessage="";
+                var outputMessage=[];
                 for(var x = 0;x<jsons.data[0][2].length;x++)//determine what failure
                 {
                   
                     if(jsons.data[0][2][x].failureType=="drawerDegraded")
                     {
-                      outputMessage+="drawerDegraded \n -----------------------";
+                      outputMessage.push({failureType:"drawerDegraded"});
                     }
                     if(jsons.data[0][2][x].failureType=="usmUnreadableSectorsExist")
                     {
-                      outputMessage+="\n usmUnreadableSectorsExist \n databasecount -> unreadablesectors \n -----------------------";
+                      outputMessage.push({failureType:"usmUnreadableSectorsExist databasecount -> unreadablesectors"});
 
                     }
                    
@@ -165,27 +165,26 @@ export class ChartjsComponent implements OnInit, AfterViewInit {
             console.log("VolsPols: System #"+firstPoint._chart.config.options.title.text);
             if(firstPoint._chart.config.data.datasets[0].backgroundColor[firstPoint._index]=="#ff0000")
               {
-                var outputMessage="";
+                var outputMessage=[];
                 for(var x = 0;x<jsons.data[0][2].length;x++)//determine witch failure
                 {
                   
                     if(jsons.data[0][2][x].failureType=="diskPoolReconstructionDriveCountBelowThreshold")
                     {
-                      outputMessage+="diskPoolReconstructionDriveCountBelowThreshold -> Not Enough Spares \n Disk Pool:"+jsons.data[0][2][x].objectData.label+"\n Required Reserved Drive Count:"+jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount+"\n Current Reserved Drive Count:"+jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent+"\n -----------------------";
+                      outputMessage.push({failureType:"diskPoolReconstructionDriveCountBelowThreshold",description:"Not Enough Spares",DiskPool:jsons.data[0][2][x].objectData.label,RequiredReservedDriveCount:jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount,CurrentReservedDriveCount:jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent});
                     }
                     if(jsons.data[0][2][x].failureType=="diskPoolCapacityDepleted")
                     {
-                      outputMessage+="\n diskPoolCapacityDepleted \n Disk Pool:"+jsons.data[0][2][x].objectData.label+"\n Required Reserved Drive Count:"+jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount+"\n Current Reserved Drive Count:"+jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent+"\n Used Capacity:"+jsons.data[0][2][x].objectData.usedSpace+"\n Free Capacity:"+jsons.data[0][2][x].objectData.freeSpace+"\n -----------------------";
+                      outputMessage.push({failureType:"diskPoolCapacityDepleted",DiskPool:jsons.data[0][2][x].objectData.label,RequiredReservedDriveCount:jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount,CurrentReservedDriveCount:jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent,UsedCapacity:jsons.data[0][2][x].objectData.usedSpace,FreeCapacity:jsons.data[0][2][x].objectData.freeSpace});
 
                     }
                     if(jsons.data[0][2][x].failureType=="degradedVolume")
                     {
-                      outputMessage+="\n degradedVolume \n Disk Pool:"+jsons.data[0][2][x].objectData.label+"Replace Disks Cyka Blyat \n -----------------------";
-
+                      outputMessage.push({failureType:"degradedVolume",DiskPool:jsons.data[0][2][x].objectData.label+"-> Replace Disks Cyka Blyat"});
                     }
                    
                 }
-                dialogService.confirm("Vols&Pools",outputMessage);//calling to function that open the modal
+                dialogService.confirm("Vols&Pools",JSON.stringify(outputMessage));//calling to function that open the modal
               }
           }
       }

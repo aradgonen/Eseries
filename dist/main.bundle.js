@@ -558,13 +558,13 @@ var ChartjsComponent = /** @class */ (function () {
                 if (firstPoint._index == 2) {
                     console.log("Hardware: System #" + firstPoint._chart.config.options.title.text);
                     if (firstPoint._chart.config.data.datasets[0].backgroundColor[firstPoint._index] == "#ff0000") {
-                        var outputMessage = "";
+                        var outputMessage = [];
                         for (var x = 0; x < jsons.data[0][2].length; x++) {
                             if (jsons.data[0][2][x].failureType == "drawerDegraded") {
-                                outputMessage += "drawerDegraded \n -----------------------";
+                                outputMessage.push({ failureType: "drawerDegraded" });
                             }
                             if (jsons.data[0][2][x].failureType == "usmUnreadableSectorsExist") {
-                                outputMessage += "\n usmUnreadableSectorsExist \n databasecount -> unreadablesectors \n -----------------------";
+                                outputMessage.push({ failureType: "usmUnreadableSectorsExist databasecount -> unreadablesectors" });
                             }
                         }
                         dialogService.confirm("Hardware", outputMessage); //calling to function that open the modal
@@ -579,19 +579,19 @@ var ChartjsComponent = /** @class */ (function () {
                 if (firstPoint._index == 4) {
                     console.log("VolsPols: System #" + firstPoint._chart.config.options.title.text);
                     if (firstPoint._chart.config.data.datasets[0].backgroundColor[firstPoint._index] == "#ff0000") {
-                        var outputMessage = "";
+                        var outputMessage = [];
                         for (var x = 0; x < jsons.data[0][2].length; x++) {
                             if (jsons.data[0][2][x].failureType == "diskPoolReconstructionDriveCountBelowThreshold") {
-                                outputMessage += "diskPoolReconstructionDriveCountBelowThreshold -> Not Enough Spares \n Disk Pool:" + jsons.data[0][2][x].objectData.label + "\n Required Reserved Drive Count:" + jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount + "\n Current Reserved Drive Count:" + jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent + "\n -----------------------";
+                                outputMessage.push({ failureType: "diskPoolReconstructionDriveCountBelowThreshold", description: "Not Enough Spares", DiskPool: jsons.data[0][2][x].objectData.label, RequiredReservedDriveCount: jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount, CurrentReservedDriveCount: jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent });
                             }
                             if (jsons.data[0][2][x].failureType == "diskPoolCapacityDepleted") {
-                                outputMessage += "\n diskPoolCapacityDepleted \n Disk Pool:" + jsons.data[0][2][x].objectData.label + "\n Required Reserved Drive Count:" + jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount + "\n Current Reserved Drive Count:" + jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent + "\n Used Capacity:" + jsons.data[0][2][x].objectData.usedSpace + "\n Free Capacity:" + jsons.data[0][2][x].objectData.freeSpace + "\n -----------------------";
+                                outputMessage.push({ failureType: "diskPoolCapacityDepleted", DiskPool: jsons.data[0][2][x].objectData.label, RequiredReservedDriveCount: jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCount, CurrentReservedDriveCount: jsons.data[0][2][x].objectData.volumeGroupData.diskPoolData.reconstructionReservedDriveCountCurrent, UsedCapacity: jsons.data[0][2][x].objectData.usedSpace, FreeCapacity: jsons.data[0][2][x].objectData.freeSpace });
                             }
                             if (jsons.data[0][2][x].failureType == "degradedVolume") {
-                                outputMessage += "\n degradedVolume \n Disk Pool:" + jsons.data[0][2][x].objectData.label + "Replace Disks Cyka Blyat \n -----------------------";
+                                outputMessage.push({ failureType: "degradedVolume", DiskPool: jsons.data[0][2][x].objectData.label + "-> Replace Disks Cyka Blyat" });
                             }
                         }
-                        dialogService.confirm("Vols&Pools", outputMessage); //calling to function that open the modal
+                        dialogService.confirm("Vols&Pools", JSON.stringify(outputMessage)); //calling to function that open the modal
                     }
                 }
             }
@@ -1022,6 +1022,24 @@ var NavbarComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/ngbd-modal-basic/ngbd-modal-basic.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "table{\r\n    table-layout: fixed;\r\n}\r\ntd{\r\n    word-wrap: break-word;\r\n    width: 100px !important;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
 /***/ "../../../../../src/app/ngbd-modal-basic/ngbd-modal-basic.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1084,7 +1102,8 @@ var NgbdModalBasicComponent = /** @class */ (function () {
     ], NgbdModalBasicComponent.prototype, "message", void 0);
     NgbdModalBasicComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            template: "\n    <div class=\"modal-header\">\n      <h4 class=\"modal-title\">{{ title }}</h4>\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n    </div>\n    <div class=\"modal-body\">\n    <div *ngIf=\"isFailedDrives; else elseBlockA\">\n    <table class=\"table\">\n    <td>Tray</td><td>Slot</td><td>Status</td><td>Capacity</td><td>Interface Type</td><td>ID</td>\n    <tr *ngFor=\"let Data of failedDrivesInfo; let i = index\">\n    <td>{{failedDrivesInfo[i].tray}}</td>\n    <td>{{failedDrivesInfo[i].slot}}</td>\n    <td>{{failedDrivesInfo[i].status}}</td>\n    <td>{{failedDrivesInfo[i].capacity}}</td>\n    <td>{{failedDrivesInfo[i].interfaceType}}</td>\n    <td>{{failedDrivesInfo[i].id}}</td>\n    </tr>\n    </table>\n    </div>\n    <ng-template #elseBlockA><p *ngIf=\"bugreportscreen; else elseBlockB\"><app-form></app-form></ng-template>\n    <ng-template #elseBlockB><p *ngIf=\"isVolsPools; else elseBlockC\"><p *ngFor=\"let data of message; let i = index\">\n    {{message[i]}}\n    <br/>\n  </p></ng-template>\n    <ng-template #elseBlockC><p #inputTraget >{{message}}</p> </ng-template>   \n    </div>\n    <div class=\"modal-footer\">\n      <button mat-raised-button color=\"primary\" (click)=\"activeModal.close(true)\">Ok</button>\n    </div>\n  " //all of this code is actually the html file, but angular allow to write it here instead of a seperate file
+            template: "\n    <div class=\"modal-header\">\n      <h4 class=\"modal-title\">{{ title }}</h4>\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n    </div>\n    <div class=\"modal-body\">\n    <div *ngIf=\"isFailedDrives; else elseBlockA\">\n    <table class=\"table\">\n    <td>Tray</td><td>Slot</td><td>Status</td><td>Capacity</td><td>Interface Type</td><td>ID</td>\n    <tr *ngFor=\"let Data of failedDrivesInfo; let i = index\">\n    <td>{{failedDrivesInfo[i].tray}}</td>\n    <td>{{failedDrivesInfo[i].slot}}</td>\n    <td>{{failedDrivesInfo[i].status}}</td>\n    <td>{{failedDrivesInfo[i].capacity}}</td>\n    <td>{{failedDrivesInfo[i].interfaceType}}</td>\n    <td>{{failedDrivesInfo[i].id}}</td>\n    </tr>\n    </table>\n    </div>\n    <ng-template #elseBlockA><p *ngIf=\"bugreportscreen; else elseBlockB\"><app-form></app-form></ng-template>\n    <ng-template #elseBlockB><p *ngIf=\"isVolsPools; else elseBlockC\">\n    <table class=\"table\">\n    <td>FailureType</td><td>Description</td><td>DiskPool</td><td>Required \n Reserved \n Drive \n Count</td><td>Current \n Reserved \n Drive \n Count</td><td>UsedCapacity</td><td>FreeCapacity</td>\n    <tr *ngFor=\"let data of otherModalData; let i = index\">\n    <td>{{otherModalData[i].failureType}}</td>\n    <td>{{otherModalData[i].description}}</td>\n    <td>{{otherModalData[i].DiskPool}}</td>\n    <td>{{otherModalData[i].RequiredReservedDriveCount}}</td>\n    <td>{{otherModalData[i].CurrentReservedDriveCount}}</td>\n    <td>{{otherModalData[i].UsedCapacity}}</td>\n    <td>{{otherModalData[i].FreeCapacity}}</td>\n    </tr>\n    </table>\n    </ng-template>\n    <ng-template #elseBlockC><p #inputTraget >{{message}}</p> </ng-template>   \n    </div>\n    <div class=\"modal-footer\">\n      <button mat-raised-button color=\"primary\" (click)=\"activeModal.close(true)\">Ok</button>\n    </div>\n  ",
+            styles: [__webpack_require__("../../../../../src/app/ngbd-modal-basic/ngbd-modal-basic.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["a" /* NgbActiveModal */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectorRef */]])
     ], NgbdModalBasicComponent);
@@ -1102,10 +1121,12 @@ var DialogService = /** @class */ (function () {
             modalRef.componentInstance.failedDrivesInfo = callerMessage;
         }
         if (callerTitle == "Vols&Pools") {
+            callerMessage = JSON.parse(callerMessage);
+            modalRef.componentInstance.otherModalData = callerMessage;
             modalRef.componentInstance.title = callerTitle;
-            modalRef.componentInstance.message = callerMessage.split("\n");
-            modalRef.componentInstance.changeRef.markForCheck();
-            return modalRef.result;
+            // modalRef.componentInstance.message = callerMessage.split("\n");
+            // modalRef.componentInstance.changeRef.markForCheck();
+            // return modalRef.result;
         }
         else {
             modalRef.componentInstance.title = callerTitle;
